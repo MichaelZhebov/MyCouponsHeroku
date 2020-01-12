@@ -34,9 +34,6 @@ public class CompanyService {
 	private BCryptPasswordEncoder encoder;
 
 	public ResponseEntity<?> addCoupon(Coupon coupon, long companyID) {
-		if (coupon.getStartDate().before(new Date())) {
-			return new ResponseEntity<String>("The coupon Start Date is not valid!", HttpStatus.BAD_REQUEST);
-		}
 		if (coupon.getEndDate().before(coupon.getStartDate())) {
 			return new ResponseEntity<String>("The coupon End Date is not valid!", HttpStatus.BAD_REQUEST);
 		}
