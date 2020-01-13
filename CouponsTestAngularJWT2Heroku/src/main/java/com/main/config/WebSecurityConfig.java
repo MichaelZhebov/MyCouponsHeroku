@@ -1,7 +1,6 @@
 package com.main.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -50,11 +49,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
     
     @Override
+    public void configure(WebSecurity web) throws Exception {
+        web.ignoring().antMatchers("/main*");
+    }
+    
+    @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.cors().and().csrf().disable().
                 authorizeRequests()
-                .requestMatchers(PathRequest.toStaticResources().atCommonLocations())
-                .permitAll()
                 .antMatchers("/").permitAll()
                 .antMatchers("/login").permitAll()
                 .antMatchers("/register/*").permitAll()
