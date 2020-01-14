@@ -50,7 +50,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     
     @Override
     public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("/main*", "3rdparty*", "/index*", "/polyfills*", "/runtime*", "/scripts*", "/styles*", "/assets/*", "/favicon*");
+        web.ignoring().antMatchers("/res/**");
+//        web.ignoring().antMatchers("/main*", "3rdparty*", "/index*", "/polyfills*", "/runtime*", "/scripts*", "/styles*", "/assets/*", "/favicon*");
+
     }
     
     @Override
