@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
@@ -34,9 +33,9 @@ public class CompanyService {
 	private BCryptPasswordEncoder encoder;
 
 	public ResponseEntity<?> addCoupon(Coupon coupon, long companyID) {
-		if (coupon.getEndDate().before(coupon.getStartDate())) {
-			return new ResponseEntity<String>("The coupon End Date is not valid!", HttpStatus.BAD_REQUEST);
-		}
+//		if (coupon.getEndDate().before(coupon.getStartDate())) {
+//			return new ResponseEntity<String>("The coupon End Date is not valid!", HttpStatus.BAD_REQUEST);
+//		}
 		if (coupon.getAmount() == null || coupon.getAmount() <= 0) {
 			return new ResponseEntity<String>("The coupon Amount is not valid!", HttpStatus.BAD_REQUEST);
 		}
@@ -111,9 +110,9 @@ public class CompanyService {
 	}
 
 	public ResponseEntity<?> updateCoupon(Coupon newCoupon, long couponID, long companyId) {
-		if (newCoupon.getStartDate().before(new Date())) {
-			return new ResponseEntity<String>("The coupon Start Date is not valid!", HttpStatus.BAD_REQUEST);
-		}
+//		if (newCoupon.getStartDate().before(new Date())) {
+//			return new ResponseEntity<String>("The coupon Start Date is not valid!", HttpStatus.BAD_REQUEST);
+//		}
 		if (newCoupon.getEndDate().before(newCoupon.getStartDate())) {
 			return new ResponseEntity<String>("The coupon End Date is not valid!", HttpStatus.BAD_REQUEST);
 		}
@@ -177,10 +176,11 @@ public class CompanyService {
 	}
 
 	public List<Coupon> getCompanyCoupons(long id) {
-		List<Coupon> coupons = couponRepository.findBycompanyId(id);
-		coupons.stream().filter(c -> c.getEndDate().before(new Date())).map(c -> deleteCoupon(c.getId()))
-				.collect(Collectors.toList());
-		return coupons;
+//		List<Coupon> coupons = couponRepository.findBycompanyId(id);
+//		coupons.stream().filter(c -> c.getEndDate().before(new Date())).map(c -> deleteCoupon(c.getId()))
+//				.collect(Collectors.toList());
+//		return coupons;
+		return couponRepository.findBycompanyId(id);
 	}
 
 //	public List<Coupon> getCompanyCoupons(Long id, Category category) {

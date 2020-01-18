@@ -1,11 +1,9 @@
 package com.main.service;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import javax.annotation.PostConstruct;
 
@@ -162,10 +160,11 @@ public class AdminService {
 	}
 
 	public List<Coupon> getAllCoupons() {
-		List<Coupon> coupons = couponRepository.findAll();
-		coupons.stream().filter(c -> c.getEndDate().before(new Date()))
-						.map(c -> companyService.deleteCoupon(c.getId())).collect(Collectors.toList());
-		return coupons;
+//		List<Coupon> coupons = couponRepository.findAll();
+//		coupons.stream().filter(c -> c.getEndDate().before(new Date()))
+//						.map(c -> companyService.deleteCoupon(c.getId())).collect(Collectors.toList());
+//		return coupons;
+		return couponRepository.findAll();
 	}
 
 	public Coupon getCoupon(long id) {

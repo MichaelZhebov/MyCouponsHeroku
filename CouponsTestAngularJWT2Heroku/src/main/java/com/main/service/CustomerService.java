@@ -3,7 +3,6 @@ package com.main.service;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
@@ -28,8 +27,6 @@ public class CustomerService {
 	private CouponRepository couponRepository;
 	@Autowired
 	private CompanyRepository companyRepository;
-	@Autowired
-	private CompanyService companyService;
 	@Autowired
 	private BCryptPasswordEncoder encoder;
 
@@ -103,16 +100,18 @@ public class CustomerService {
 	
 	public List<Coupon> getAllCoupons(long id) {
 		List<Coupon> coupons = couponRepository.findAll();
-		coupons.stream().filter(c -> c.getEndDate().before(new Date())).map(c -> companyService.deleteCoupon(c.getId())).collect(Collectors.toList());
+	//	coupons.stream().filter(c -> c.getEndDate().before(new Date())).map(c -> companyService.deleteCoupon(c.getId())).collect(Collectors.toList());
 		coupons.removeAll(getCustomerCoupons(id));
 		coupons.removeIf(c -> c.getAmount() == 0);
+		coupons.removeIf(c -> c.getEndDate().before(new Date()));
 		return coupons;
 	}
 	
 	public List<Coupon> getCustomerCoupons(long id) {
 		List<Coupon> coupons = (List<Coupon>) customerRepository.findById(id).get().getCoupons();
-		coupons.stream().filter(c -> c.getEndDate().before(new Date()))
-						.map(c -> companyService.deleteCoupon(c.getId())).collect(Collectors.toList());
+//		coupons.stream().filter(c -> c.getEndDate().before(new Date()))
+//						.map(c -> companyService.deleteCoupon(c.getId())).collect(Collectors.toList());
+		coupons.removeIf(c -> c.getEndDate().before(new Date()));
 		return coupons;
 	}
 

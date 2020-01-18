@@ -1,7 +1,7 @@
 package com.main.beans;
 
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -20,7 +20,7 @@ public class Customer {
 	private String fullName;
 	private String email;
 	private String password;
-	private Collection<Coupon> coupons = new ArrayList<Coupon>();
+	private List<Coupon> coupons = new ArrayList<Coupon>();
 	private String role;
 	private boolean isActive;
 
@@ -83,7 +83,7 @@ public class Customer {
 	}
 
 	@ManyToMany(fetch = FetchType.EAGER)
-	public Collection<Coupon> getCoupons() {
+	public List<Coupon> getCoupons() {
 		return coupons;
 	}
 
@@ -93,7 +93,7 @@ public class Customer {
 		}
 	}
 
-	public void setCoupons(Collection<Coupon> coupons) {
+	public void setCoupons(List<Coupon> coupons) {
 		this.coupons = coupons;
 	}
 

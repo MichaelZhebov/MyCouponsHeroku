@@ -20,7 +20,6 @@ import com.main.config.JwtProvider;
 import com.main.service.AdminService;
 import com.main.service.UserDetailsImpl;
 
-
 @CrossOrigin(origins = "*")
 @RestController
 @RequestMapping
@@ -30,45 +29,47 @@ public class AuthController {
 
 	@Autowired
 	JwtProvider jwtTokenProvider;
-	
+
 	@Autowired
 	private AdminService adminService;
 
 	@SuppressWarnings("rawtypes")
 	@PostMapping("/login")
 	public ResponseEntity login(@RequestBody AuthBody data) {
-		if (!data.getEmail().matches("^([_a-zA-Z0-9-]+(\\.[_a-zA-Z0-9-]+)*@[a-zA-Z0-9-]+(\\.[a-zA-Z0-9-]+)*(\\.[a-zA-Z]{1,6}))?$")) {
+		if (!data.getEmail().matches(
+				"^([_a-zA-Z0-9-]+(\\.[_a-zA-Z0-9-]+)*@[a-zA-Z0-9-]+(\\.[a-zA-Z0-9-]+)*(\\.[a-zA-Z]{1,6}))?$")) {
 			return new ResponseEntity<String>("Email is not valid!", HttpStatus.BAD_REQUEST);
 		}
-		Authentication authentication = authenticationManager.authenticate(
-			        new UsernamePasswordAuthenticationToken(data.getEmail(), data.getPassword()));
-			 
-			    SecurityContextHolder.getContext().setAuthentication(authentication);
-			 
-			    String jwt = jwtTokenProvider.generateJwtToken(authentication);
-			    UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-			 
-			    return ResponseEntity.ok(new JwtResponse(jwt, userDetails.getUsername(), userDetails.getRole(), 
-			    											userDetails.getId(), userDetails.getFullName()));
+		Authentication authentication = authenticationManager
+				.authenticate(new UsernamePasswordAuthenticationToken(data.getEmail(), data.getPassword()));
+
+		SecurityContextHolder.getContext().setAuthentication(authentication);
+
+		String jwt = jwtTokenProvider.generateJwtToken(authentication);
+		UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+
+		return ResponseEntity.ok(new JwtResponse(jwt, userDetails.getUsername(), userDetails.getRole(),
+				userDetails.getId(), userDetails.getFullName()));
 	}
 
 	@SuppressWarnings("rawtypes")
 	@PostMapping("/register/company")
 	public ResponseEntity register(@RequestBody Company company) {
-		if (!company.getEmail().matches("^([_a-zA-Z0-9-]+(\\.[_a-zA-Z0-9-]+)*@[a-zA-Z0-9-]+(\\.[a-zA-Z0-9-]+)*(\\.[a-zA-Z]{1,6}))?$")) {
+		if (!company.getEmail().matches(
+				"^([_a-zA-Z0-9-]+(\\.[_a-zA-Z0-9-]+)*@[a-zA-Z0-9-]+(\\.[a-zA-Z0-9-]+)*(\\.[a-zA-Z]{1,6}))?$")) {
 			return new ResponseEntity<String>("Email is not valid!", HttpStatus.BAD_REQUEST);
 		}
 		return adminService.addCompany(company);
 	}
-	
+
 	@SuppressWarnings("rawtypes")
 	@PostMapping("/register/customer")
 	public ResponseEntity register(@RequestBody Customer customer) {
-		if (!customer.getEmail().matches("^([_a-zA-Z0-9-]+(\\.[_a-zA-Z0-9-]+)*@[a-zA-Z0-9-]+(\\.[a-zA-Z0-9-]+)*(\\.[a-zA-Z]{1,6}))?$")) {
+		if (!customer.getEmail().matches(
+				"^([_a-zA-Z0-9-]+(\\.[_a-zA-Z0-9-]+)*@[a-zA-Z0-9-]+(\\.[a-zA-Z0-9-]+)*(\\.[a-zA-Z]{1,6}))?$")) {
 			return new ResponseEntity<String>("Email is not valid!", HttpStatus.BAD_REQUEST);
 		}
 		return adminService.addCustomer(customer);
 	}
-
 
 }
