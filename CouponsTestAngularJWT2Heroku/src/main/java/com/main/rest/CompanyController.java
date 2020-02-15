@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.main.beans.Company;
 import com.main.beans.Coupon;
-import com.main.beans.Coupon.Category;
 import com.main.service.CompanyService;
 import com.main.service.UserDetailsImpl;
 

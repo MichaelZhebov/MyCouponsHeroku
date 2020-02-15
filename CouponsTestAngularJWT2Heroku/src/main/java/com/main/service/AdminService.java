@@ -32,8 +32,6 @@ public class AdminService {
 	@Autowired
 	private CustomerRepository customerRepository;
 	@Autowired
-	private CompanyService companyService;
-	@Autowired
 	private BCryptPasswordEncoder encoder;
 
 	@PostConstruct
@@ -172,7 +170,7 @@ public class AdminService {
 	}
 
 	public List<Coupon> getCompanyCoupons(long id) {
-		return companyService.getCompanyCoupons(id);
+		return couponRepository.findBycompanyId(id);
 	}
 
 	public ResponseEntity<?> addCustomer(Customer customer) {

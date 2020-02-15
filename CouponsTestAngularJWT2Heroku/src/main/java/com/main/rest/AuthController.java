@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.main.beans.AuthBody;
 import com.main.beans.Company;
 import com.main.beans.Customer;
 import com.main.beans.JwtResponse;

@@ -1,4 +1,4 @@
-package com.main.rest;
+package com.main.beans;
 
 public class AuthBody {
 
