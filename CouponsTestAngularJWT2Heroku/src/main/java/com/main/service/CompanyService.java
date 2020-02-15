@@ -163,10 +163,12 @@ public class CompanyService {
 	public Map<String, Boolean> deleteCoupon(long couponID) {
 		Coupon coupon = couponRepository.findById(couponID)
 				.orElseThrow(() -> new ResourceNotFoundException("Company not found for this id : " + couponID));
-		Customer customer = customerRepository.findByCouponsId(coupon.getId());
-		if (customer != null) {
-			customer.getCoupons().remove(coupon);
-			customerRepository.save(customer);
+		List<Customer> customers = customerRepository.findByCouponsId(coupon.getId());
+		if (customers != null) {
+			customers.forEach(c -> {
+				c.getCoupons().remove(coupon);
+				customerRepository.save(c);
+			});
 		}
 		couponRepository.delete(coupon);
 		Map<String, Boolean> response = new HashMap<>();
