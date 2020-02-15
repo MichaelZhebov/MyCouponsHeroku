@@ -23,7 +23,7 @@ public class ScheduledTasks {
 	@Autowired
 	private CompanyService companyService;
 	
-	@Scheduled(fixedRate = 1000 * 60 * 60 * 12) // 12 hours
+	@Scheduled(fixedRate = 1000 * 60) // 12 hours
     @Transactional(propagation=Propagation.REQUIRES_NEW)
 	public void checkCoupons() {
 		List<Coupon> coupons = couponRepository.findAll();
