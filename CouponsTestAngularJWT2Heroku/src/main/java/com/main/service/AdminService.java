@@ -126,10 +126,12 @@ public class AdminService {
 		companyRepository.delete(company);
 		List<Coupon> coupons = couponRepository.findBycompanyId(companyID);
 		for (Coupon coupon : coupons) {
-			Customer customer = customerRepository.findByCouponsId(coupon.getId());
-			if (customer != null) {
-				customer.getCoupons().removeAll(coupons);
-				customerRepository.save(customer);
+			List<Customer> customers = customerRepository.findByCouponsId(coupon.getId());
+			if (customers != null) {
+				customers.forEach(c -> {
+					c.getCoupons().remove(coupon);
+					customerRepository.save(c);
+				});
 			}
 		}
 		couponRepository.deleteAll(coupons);
