@@ -102,10 +102,8 @@ public class AdminService {
 
 		if (newCompany.getFullName() != null) {
 			company.setFullName(newCompany.getFullName());
-			List<Coupon> coupons = couponRepository.findBycompanyId(companyId);
-			for (Coupon coupon : coupons) {
-				coupon.setCompanyName(newCompany.getFullName());
-			}
+			List<Coupon> coupons = couponRepository.findByCompanyId(companyId);
+			coupons.forEach(c -> c.setCompanyName(newCompany.getFullName()));
 		}
 		if (newCompany.getEmail() != null) {
 			company.setEmail(newCompany.getEmail());
@@ -124,7 +122,7 @@ public class AdminService {
 		Company company = companyRepository.findById(companyID)
 				.orElseThrow(() -> new ResourceNotFoundException("Company not found for this id : " + companyID));
 		companyRepository.delete(company);
-		List<Coupon> coupons = couponRepository.findBycompanyId(companyID);
+		List<Coupon> coupons = couponRepository.findByCompanyId(companyID);
 		for (Coupon coupon : coupons) {
 			List<Customer> customers = customerRepository.findByCouponsId(coupon.getId());
 			if (customers != null) {
@@ -143,7 +141,7 @@ public class AdminService {
 	public List<Company> getAllCompanies() {
 		List<Company> companies = companyRepository.findAll();
 		for (Company company : companies) {
-			List<Coupon> coupons = couponRepository.findBycompanyId(company.getId());
+			List<Coupon> coupons = couponRepository.findByCompanyId(company.getId());
 			company.setCoupons(coupons);
 		}
 		companies.removeIf(c -> c.getRole().equalsIgnoreCase("ROLE_ADMIN"));
@@ -154,16 +152,12 @@ public class AdminService {
 	public ResponseEntity<Company> getOneCompany(long companyID) {
 		Company company = companyRepository.findById(companyID)
 				.orElseThrow(() -> new ResourceNotFoundException("Company not found for this id : " + companyID));
-		List<Coupon> coupons = couponRepository.findBycompanyId(companyID);
+		List<Coupon> coupons = couponRepository.findByCompanyId(companyID);
 		company.setCoupons(coupons);
 		return ResponseEntity.ok(company);
 	}
 
 	public List<Coupon> getAllCoupons() {
-//		List<Coupon> coupons = couponRepository.findAll();
-//		coupons.stream().filter(c -> c.getEndDate().before(new Date()))
-//						.map(c -> companyService.deleteCoupon(c.getId())).collect(Collectors.toList());
-//		return coupons;
 		return couponRepository.findAll();
 	}
 
@@ -172,7 +166,7 @@ public class AdminService {
 	}
 
 	public List<Coupon> getCompanyCoupons(long id) {
-		return couponRepository.findBycompanyId(id);
+		return couponRepository.findByCompanyId(id);
 	}
 
 	public ResponseEntity<?> addCustomer(Customer customer) {

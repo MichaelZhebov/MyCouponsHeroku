@@ -68,16 +68,4 @@ public class CustomerContoller {
 		UserDetailsImpl userDetailsImpl = (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		return customerService.getCustomerCoupons(userDetailsImpl.getId());
 	}
-
-//	@GetMapping("myCouponsCat/{category}")
-//	public List<Coupon> getCustomerCoupons(@PathVariable String category) {
-//		UserDetailsImpl userDetailsImpl = (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-//		return customerService.getCustomerCoupons(userDetailsImpl.getId(), Category.valueOf(category));
-//	}
-//
-//	@GetMapping("myCouponsPrice/{maxPrice}")
-//	public List<Coupon> getCustomerCoupons(@PathVariable double maxPrice) {
-//		UserDetailsImpl userDetailsImpl = (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-//		return customerService.getCustomerCoupons(userDetailsImpl.getId(), maxPrice);
-//	}
 }

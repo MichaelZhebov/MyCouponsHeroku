@@ -32,9 +32,6 @@ public class CompanyService {
 	private BCryptPasswordEncoder encoder;
 
 	public ResponseEntity<?> addCoupon(Coupon coupon, long companyID) {
-//		if (coupon.getEndDate().before(coupon.getStartDate())) {
-//			return new ResponseEntity<String>("The coupon End Date is not valid!", HttpStatus.BAD_REQUEST);
-//		}
 		if (coupon.getAmount() == null || coupon.getAmount() <= 0) {
 			return new ResponseEntity<String>("The coupon Amount is not valid!", HttpStatus.BAD_REQUEST);
 		}
@@ -42,7 +39,7 @@ public class CompanyService {
 			return new ResponseEntity<String>("The coupon Price is not valid!", HttpStatus.BAD_REQUEST);
 		}
 		Optional<Company> company = companyRepository.findById(companyID);
-		List<Coupon> coupons = couponRepository.findBycompanyId(companyID);
+		List<Coupon> coupons = couponRepository.findByCompanyId(companyID);
 		for (Coupon coupon2 : coupons) {
 			if (coupon2.getTitle().equalsIgnoreCase(coupon.getTitle())) {
 				return new ResponseEntity<String>("The coupon with same Title is already exist!",
@@ -53,7 +50,7 @@ public class CompanyService {
 		coupon.setCompanyName(company.get().getFullName());
 		if (coupon.getImage() == null) {
 			coupon.setImage(
-					"https://lh3.googleusercontent.com/1tOWHST-BBYRCZs1CC8JADKEattBCcS9CcbpEASWQzkCVb6MSOmTRTI36AmV9ZLRz95h6Hyc-8uu2_XrJJR_dymwlCq1Tlb2To6L9UogIRxpQu8y4jx_EJDq9psuwbjR2rdEL9O_qDL5-WzVQhoaoLr5xSo0xOecAV3EVOGOvhtHaKLpWLoQH4AY0jqMfPUx4g7_AyZjZUmB3U1pGSBvtBDqFsifozLzpMW_XTJUUx2M7fFCn59m2EgfDwVaYES-L0EreHEMmwMIWzKe5wQjYYG6-3zMsECm7nUsjnTooJIyATQG8dzkNhtXxOlNLVW2YiNc7-iCCmyCgpHxVum1HJh2KYAYcnf4ua0eSjjchNW-coBZ9RKDnwKGOG3K1aht4SzAns-TAviuxi0h-AtNIhPXTYrFfdlceWXabEGpZ2Kc0hZJma39IVYAqimiGHrKniPW00ECzfEfpYA7APfrfqg1AwsBCWfUqr_JCwZyA9iAlQAjSVNMJcMLxsiHByHkgZ-N22trBmP26IfHRMK0It6-_7j13LNegdkvv181SMRJVxQkCRJBWZluIXCe-DTKyGDmCgCEsA9Ui8rRONgj85eIDN8RSg1zx4qUL-bY3qQcBFBVKGW5tl75I-ANRjxwg_e9UgI4QqENccbTS_r4hjEs3vR7Tr2SjQ31ia9QKQO44wt-p_O88ug=w366-h142-no");
+					"https://i.ibb.co/mSnVgRM/coupon-Default.png");
 		}
 		company.get().addCoupon(coupon);
 		companyRepository.save(company.get());
@@ -86,10 +83,8 @@ public class CompanyService {
 
 		if (newCompany.getFullName() != null) {
 			company.setFullName(newCompany.getFullName());
-			List<Coupon> coupons = couponRepository.findBycompanyId(companyId);
-			for (Coupon coupon : coupons) {
-				coupon.setCompanyName(newCompany.getFullName());
-			}
+			List<Coupon> coupons = couponRepository.findByCompanyId(companyId);
+			coupons.forEach(c -> c.setCompanyName(newCompany.getFullName()));
 		}
 		if (newCompany.getEmail() != null) {
 			company.setEmail(newCompany.getEmail());
@@ -109,9 +104,6 @@ public class CompanyService {
 	}
 
 	public ResponseEntity<?> updateCoupon(Coupon newCoupon, long couponID, long companyId) {
-//		if (newCoupon.getStartDate().before(new Date())) {
-//			return new ResponseEntity<String>("The coupon Start Date is not valid!", HttpStatus.BAD_REQUEST);
-//		}
 		if (newCoupon.getEndDate().before(newCoupon.getStartDate())) {
 			return new ResponseEntity<String>("The coupon End Date is not valid!", HttpStatus.BAD_REQUEST);
 		}
@@ -177,20 +169,8 @@ public class CompanyService {
 	}
 
 	public List<Coupon> getCompanyCoupons(long id) {
-//		List<Coupon> coupons = couponRepository.findBycompanyId(id);
-//		coupons.stream().filter(c -> c.getEndDate().before(new Date())).map(c -> deleteCoupon(c.getId()))
-//				.collect(Collectors.toList());
-//		return coupons;
-		return couponRepository.findBycompanyId(id);
+		return couponRepository.findByCompanyId(id);
 	}
-
-//	public List<Coupon> getCompanyCoupons(Long id, Category category) {
-//		return couponRepository.findByCompanyIdAndCategory(id, category);
-//	}
-//
-//	public List<Coupon> getCompanyCoupons(Long id, double maxPrice) {
-//		return couponRepository.findByCompanyIdAndPriceLessThanEqual(id, maxPrice);
-//	}
 
 	public ResponseEntity<Company> getOneCompany(long companyID) {
 		Company company = companyRepository.findById(companyID)

@@ -26,7 +26,7 @@ public class ScheduledTasks {
 	@Scheduled(fixedRate = 1000 * 60 * 60 * 12) // 12 hours
     @Transactional(propagation=Propagation.REQUIRES_NEW)
 	public void checkCoupons() {
-		List<Coupon> coupons = couponRepository.findAll();
+		List<Coupon> coupons = couponRepository.findByEndDateLessThanEqual(new Date());
 		coupons.stream().filter(c -> c.getEndDate().before(new Date()))
 		.map(c -> companyService.deleteCoupon(c.getId())).collect(Collectors.toList());
 	}

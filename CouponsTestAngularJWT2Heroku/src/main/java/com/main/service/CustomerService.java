@@ -100,7 +100,6 @@ public class CustomerService {
 	
 	public List<Coupon> getAllCoupons(long id) {
 		List<Coupon> coupons = couponRepository.findAll();
-	//	coupons.stream().filter(c -> c.getEndDate().before(new Date())).map(c -> companyService.deleteCoupon(c.getId())).collect(Collectors.toList());
 		coupons.removeAll(getCustomerCoupons(id));
 		coupons.removeIf(c -> c.getAmount() == 0);
 		coupons.removeIf(c -> c.getEndDate().before(new Date()));
@@ -109,23 +108,9 @@ public class CustomerService {
 	
 	public List<Coupon> getCustomerCoupons(long id) {
 		List<Coupon> coupons = (List<Coupon>) customerRepository.findById(id).get().getCoupons();
-//		coupons.stream().filter(c -> c.getEndDate().before(new Date()))
-//						.map(c -> companyService.deleteCoupon(c.getId())).collect(Collectors.toList());
 		coupons.removeIf(c -> c.getEndDate().before(new Date()));
 		return coupons;
 	}
-
-//	public List<Coupon> getCustomerCoupons(long id, Category category) {
-//		return (List<Coupon>) customerRepository.findById(id).get().getCoupons()
-//				.stream().filter(x -> x.getCategory().equals(category))
-//				.collect(Collectors.toList());
-//	}
-//
-//	public List<Coupon> getCustomerCoupons(long id, double maxPrice) {
-//		return (List<Coupon>) customerRepository.findById(id).get().getCoupons()
-//				.stream().filter(x -> x.getPrice() <= maxPrice)
-//				.collect(Collectors.toList());
-//	}
 
 	public ResponseEntity<Customer> getCustomerById(long id){
 		Customer existCustomer = customerRepository.findById(id)

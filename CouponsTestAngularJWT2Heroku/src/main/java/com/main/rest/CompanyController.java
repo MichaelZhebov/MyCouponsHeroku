@@ -73,17 +73,5 @@ public class CompanyController {
 		return companyService.getCompanyCoupons(userDetailsImpl.getId());
 	}
 
-//	@GetMapping("couponsCat/{category}")
-//	public List<Coupon> getCompanyCoupons(@PathVariable String category) {
-//		UserDetailsImpl userDetailsImpl = (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-//		return companyService.getCompanyCoupons(userDetailsImpl.getId(), Category.valueOf(category));
-//	}
-//
-//	@GetMapping("couponsPrice/{maxPrice}")
-//	public List<Coupon> getCompanyCoupons(@PathVariable double maxPrice) {
-//		UserDetailsImpl userDetailsImpl = (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-//		return companyService.getCompanyCoupons(userDetailsImpl.getId(), maxPrice);
-//	}
-
 }
 	
